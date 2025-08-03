@@ -2,6 +2,9 @@
 // system 
 import { CustomElement, property, html } from "@papit/core";
 
+// utils 
+import { toMoney } from "@budget/utils-money";
+
 // local 
 import { style } from "./style";
 import { Color } from "./types";
@@ -31,7 +34,7 @@ export class CategoryTag extends CustomElement {
       <span class="tag">${this.name}</span>
       <div>
         <span>${this.value >= 0 ? "+" : "-"}</span>
-        <span>${Math.abs(this.value)}</span>
+        <span>${toMoney(Math.abs(this.value))}</span>
       </div>
     `
   }

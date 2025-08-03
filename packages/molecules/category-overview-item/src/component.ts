@@ -1,6 +1,13 @@
 // import statements 
 // system 
 import { CustomElement, html, property } from "@papit/core";
+import "@papit/accordion";
+
+// utils 
+import { toMoney } from "@budget/utils-money";
+
+// atoms
+import "@budget/category-tag"
 
 // local 
 import { style } from "./style";
@@ -9,27 +16,22 @@ import { Category } from "./types";
 export class CategoryOverviewItem extends CustomElement {
   static style = style;
 
-  private balance = "";
+  private balance = 0;
 
   @property({
     after: function (this: CategoryOverviewItem, category: Category) {
       this.balance = category.budget - category.spent;
     }
   }) category?: Category;
-  @property({ rerender: false }) 
+  @property({ type: Boolean }) open: boolean = false;
 
   private handleclick = () => {
-
-  }
-
-  private tomoney(value: number) {
-    const rounded = Math.round(value).toString();
-    return rounded.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    this.open = !this.open;
   }
 
   render() {
     return html`
-      <pap-accordion>
+      <pap-accordion open="${this.open}">
         <budget-category-tag 
           slot="button"
           name="${this.category?.name}" 
@@ -38,9 +40,14 @@ export class CategoryOverviewItem extends CustomElement {
           @click="${this.handleclick}"
         >
         </budget-category-tag>
+        <span slot="icon"></span>
         
-        <p>Spent: <span>${this.tomoney(this.category?.spent ?? 0)}</span></p>
-        <p>Budget: <span>${this.category?.budget}</span></p>
+        <div>
+          <p>Spent: <span>${toMoney(this.category?.spent ?? 0)}</span></p>
+          <p>Budget: <span>${this.category?.budget}</span></p>
+
+          <button>Details</button>
+        </div>
       </pap-accordion>
     `
   }

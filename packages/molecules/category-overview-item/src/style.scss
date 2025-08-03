@@ -1,4 +1,29 @@
 :host {
-  color: var(--pap-color-text);
-  background-color: var(--pap-color-background);
+  pap-accordion::part(button) {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  budget-category-tag {
+    width: 100%;
+  }
+  
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding-left: 1rem;
+
+    border-left: 1px dashed rgb(191, 191, 191);
+
+    button {
+      width: 100%;
+    } 
+
+    p {
+      margin: 0;
+      display: inline-flex;
+      justify-content: space-between;
+    }
+  }
 }

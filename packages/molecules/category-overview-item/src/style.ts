@@ -1,0 +1,1 @@
+export const style = `:host pap-accordion::part(button):hover{text-decoration:none}:host budget-category-tag{width:100%}:host div{display:flex;flex-direction:column;gap:.5rem;padding-left:1rem;border-left:1px dashed #bfbfbf}:host div button{width:100%}:host div p{margin:0;display:inline-flex;justify-content:space-between}`;
