@@ -1,4 +1,15 @@
 :host {
-  color: var(--pap-color-text);
-  background-color: var(--pap-color-background);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0.5rem;
+
+  div {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

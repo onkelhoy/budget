@@ -1,0 +1,1 @@
+export const style = `:host dialog{min-width:80vw}:host dialog form{display:flex;flex-direction:column;gap:1rem}:host dialog form div{display:flex;gap:.1rem;flex-direction:column}:host dialog form div label{display:block}:host dialog form div+div{flex-direction:row;gap:1rem}:host dialog form div+div button{flex:1}`;

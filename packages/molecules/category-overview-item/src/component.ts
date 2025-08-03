@@ -1,6 +1,6 @@
 // import statements 
 // system 
-import { CustomElement, html, property } from "@papit/core";
+import { CustomElement, debounce, html, property } from "@papit/core";
 import "@papit/accordion";
 
 // utils 
@@ -11,22 +11,42 @@ import "@budget/category-tag"
 
 // local 
 import { style } from "./style";
-import { Category } from "./types";
+import { Color } from "@budget/category-tag";
 
 export class CategoryOverviewItem extends CustomElement {
   static style = style;
 
   private balance = 0;
 
-  @property({
-    after: function (this: CategoryOverviewItem, category: Category) {
-      this.balance = category.budget - category.spent;
-    }
-  }) category?: Category;
+  @property() name: string = "";
+  @property() color: Color = "gray";
   @property({ type: Boolean }) open: boolean = false;
+
+  @property({ 
+    type: Number,
+    after: function (this: CategoryOverviewItem) {
+      this.calculateBalance();
+    }
+  }) budget: number = 0;
+  @property({ 
+    type: Number,
+    after: function (this: CategoryOverviewItem) {
+      this.calculateBalance();
+    }
+  }) spent: number = 0;
+
+  constructor() {
+    super();
+
+    this.calculateBalance = debounce(this.calculateBalance, 10);
+  }
 
   private handleclick = () => {
     this.open = !this.open;
+  }
+
+  private calculateBalance = () => {
+    this.balance = this.budget - this.spent;
   }
 
   render() {
@@ -34,17 +54,17 @@ export class CategoryOverviewItem extends CustomElement {
       <pap-accordion open="${this.open}">
         <budget-category-tag 
           slot="button"
-          name="${this.category?.name}" 
+          name="${this.name}" 
           value="${this.balance}"
-          color="${this.category?.color}"
+          color="${this.color}"
           @click="${this.handleclick}"
         >
         </budget-category-tag>
         <span slot="icon"></span>
         
         <div>
-          <p>Spent: <span>${toMoney(this.category?.spent ?? 0)}</span></p>
-          <p>Budget: <span>${this.category?.budget}</span></p>
+          <p>Spent: <span>${toMoney(this.spent ?? 0)}</span></p>
+          <p>Budget: <span>${this.budget}</span></p>
 
           <button>Details</button>
         </div>

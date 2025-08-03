@@ -1,4 +1,7 @@
 :host {
-  color: var(--pap-color-text);
-  background-color: var(--pap-color-background);
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 }

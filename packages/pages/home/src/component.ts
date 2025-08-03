@@ -1,25 +1,151 @@
 // import statements 
 // system 
-import { CustomElement, html, property } from "@papit/core";
+import { CustomElement, html, property, query } from "@papit/core";
+
+// organisms 
+import { CategoryOverviewList, Category } from "@budget/category-overview-list";
+import "@budget/category-overview-list";
+
+// templates 
+import { TemplateBaseLayout } from "@budget/template-base-layout";
+import "@budget/template-base-layout";
 
 // local 
 import { style } from "./style";
-import { ClickEvent } from "./types";
+import { CategoryData, MonthData } from "./types";
 
 export class PageHome extends CustomElement {
   static style = style;
 
-  // properties 
-  @property({ type: Boolean }) foo: boolean = false;
+  private categoryData: CategoryData[] = [];
+  private monthData: MonthData = { categories: {}, history: [], overview: { balance: 0, budget: 0 } };
+  private categoryOverview: Category[] = [];
+  @property({ type: Date }) date: Date = new Date();
 
-  // event handlers
-  private handleclick = () => {
-    this.dispatchEvent(new CustomEvent<ClickEvent>("main-click", { detail: { timestamp: performance.now() } }));
+  // @query({
+  //   selected: 
+  // })
+
+  @query<CategoryOverviewList>({
+    selector: "budget-category-overview-list",
+    load: function (this: PageHome, element) {
+      element.categories = this.categoryOverview;
+    }
+  }) categoryElement!: CategoryOverviewList;
+
+  connectedCallback(): void {
+    this.date = new Date();
+    const currentYear = this.date.getFullYear();
+    const currentMonth = this.date.getMonth();
+
+    this.monthData = JSON.parse(
+      window.localStorage.getItem(`data-${currentMonth}-${currentYear}`) 
+      ?? JSON.stringify(MonthData),
+    ) as MonthData;
+
+    this.categoryData = JSON.parse(window.localStorage.getItem("categories") ?? "[]") as CategoryData[];
+
+    this.categoryOverview = this.categoryData
+      .map(category => ({
+        ...category,
+        spent: this.monthData.categories[category.id]?.spent ?? 0,
+        created: new Date(category.created),
+      }))
+      .filter(category => {
+        const m = category.created.getMonth();
+        const y = category.created.getFullYear();
+
+        return currentYear === y && currentMonth === m;
+      });
+
+    if (this.categoryElement)
+    {
+      this.categoryElement.categories = this.categoryOverview;
+    }
+  }
+
+
+  // connectedCallback(): void {
+  //   super.connectedCallback();
+  //   this.originalCategories = JSON.parse(window.localStorage.getItem("categories") ?? "[]") as CategoryRaw[];
+
+  //   const currentYear = this.date.getFullYear();
+  //   const currentMonth = this.date.getMonth();
+
+  //   this.monthData = JSON.parse(
+  //     window.localStorage.getItem(`data-${currentMonth}-${currentYear}`) 
+  //     ?? JSON.stringify(MonthData),
+  //   ) as MonthData;
+
+  //   this.categories = this.originalCategories
+  //     .map(category => ({
+  //       ...category,
+  //       spent: this.monthData.categories[category.id]?.spent ?? 0,
+  //       created: new Date(category.created),
+  //     }))
+  //     .filter(category => {
+  //       const m = category.created.getMonth();
+  //       const y = category.created.getFullYear();
+
+  //       return currentYear === y && currentMonth === m;
+  //     });
+
+
+  
+
+  private handleSelect = (e:Event) => {
+    if (!(e.currentTarget instanceof TemplateBaseLayout)) return;
+
+    this.date.setMonth(e.currentTarget.selectedMonth);
+  }
+  private handleadd = () => {
+    console.log('add payment or income!')
+  }
+  private handleaddcategory = (e:CustomEvent) => {
+    const name = e.detail.name;
+    const category:Category = {
+      id: String(this.categoryData.length),
+      name,
+      budget: 0,
+      spent: 0,
+      color: "gray",
+    }
+    this.categoryData.push({
+      id: category.id,
+      name,
+      budget: 0,
+      color: "gray", 
+      created: new Date().toISOString()
+    });
+    this.categoryOverview.push(category);
+    this.monthData.categories[category.id] = { spent: category.spent, history: [] };
+
+    if (this.categoryElement) {
+      this.categoryElement.categories = this.categoryOverview;
+      this.categoryElement.requestUpdate();
+    }
+
+    window.localStorage.setItem("categories", JSON.stringify(this.categoryData));
+    window.localStorage.setItem(`data-${this.date.getMonth()}-${this.date.getFullYear()}`, JSON.stringify(this.monthData));
   }
 
   render() {
     return html`
-      <p @click="${this.handleclick}">Llama Trauma Baby Mama</p>
+      <budget-base-layout 
+        @select="${this.handleSelect}"
+        @add="${this.handleadd}"
+      >
+
+        <budget-island name="Brief Overview">
+          Hello World 
+        </budget-island>
+
+        <budget-category-overview-list
+          @add="${this.handleaddcategory}"
+        >
+        </budget-category-overview-list>
+
+      </budget-base-layout>
     `
   }
 }
