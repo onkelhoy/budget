@@ -10,6 +10,9 @@ import "@budget/category-overview-list";
 import { TemplateBaseLayout } from "@budget/template-base-layout";
 import "@budget/template-base-layout";
 
+// utils 
+import { toMoney } from "@budget/utils-money";
+
 // local 
 import { style } from "./style";
 import { CategoryData, MonthData } from "./types";
@@ -20,11 +23,7 @@ export class PageHome extends CustomElement {
   private categoryData: CategoryData[] = [];
   private monthData: MonthData = { categories: {}, history: [], overview: { balance: 0, budget: 0 } };
   private categoryOverview: Category[] = [];
-  @property({ type: Date }) date: Date = new Date();
-
-  // @query({
-  //   selected: 
-  // })
+  @property({ type: Date, }) date: Date = new Date();
 
   @query<CategoryOverviewList>({
     selector: "budget-category-overview-list",
@@ -44,6 +43,12 @@ export class PageHome extends CustomElement {
     ) as MonthData;
 
     this.categoryData = JSON.parse(window.localStorage.getItem("categories") ?? "[]") as CategoryData[];
+    this.calculateCategories();
+  }
+
+  private calculateCategories = () => {
+    const currentYear = this.date.getFullYear();
+    const currentMonth = this.date.getMonth();
 
     this.categoryOverview = this.categoryData
       .map(category => ({
@@ -64,39 +69,11 @@ export class PageHome extends CustomElement {
     }
   }
 
-
-  // connectedCallback(): void {
-  //   super.connectedCallback();
-  //   this.originalCategories = JSON.parse(window.localStorage.getItem("categories") ?? "[]") as CategoryRaw[];
-
-  //   const currentYear = this.date.getFullYear();
-  //   const currentMonth = this.date.getMonth();
-
-  //   this.monthData = JSON.parse(
-  //     window.localStorage.getItem(`data-${currentMonth}-${currentYear}`) 
-  //     ?? JSON.stringify(MonthData),
-  //   ) as MonthData;
-
-  //   this.categories = this.originalCategories
-  //     .map(category => ({
-  //       ...category,
-  //       spent: this.monthData.categories[category.id]?.spent ?? 0,
-  //       created: new Date(category.created),
-  //     }))
-  //     .filter(category => {
-  //       const m = category.created.getMonth();
-  //       const y = category.created.getFullYear();
-
-  //       return currentYear === y && currentMonth === m;
-  //     });
-
-
-  
-
   private handleSelect = (e:Event) => {
     if (!(e.currentTarget instanceof TemplateBaseLayout)) return;
 
     this.date.setMonth(e.currentTarget.selectedMonth);
+    this.calculateCategories();
   }
   private handleadd = () => {
     console.log('add payment or income!')
@@ -137,7 +114,8 @@ export class PageHome extends CustomElement {
       >
 
         <budget-island name="Brief Overview">
-          Hello World 
+          <span>Budget <span>${toMoney(this.monthData.overview.budget)}kr</span></span>
+          <span>Balance <span>${toMoney(this.monthData.overview.balance)}kr</span></span>
         </budget-island>
 
         <budget-category-overview-list

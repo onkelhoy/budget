@@ -1,1 +1,1 @@
-export const style = `:host{color:var(--pap-color-text);background-color:var(--pap-color-background)}`;
+export const style = `:host budget-island span{display:flex}:host budget-island span span{margin-left:auto}`;

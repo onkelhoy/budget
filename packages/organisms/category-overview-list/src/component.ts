@@ -46,7 +46,7 @@ export class CategoryOverviewList extends CustomElement {
             </li>
           `)}
 
-          ${this.categories.length === 0 ? 'You dont have any categories yet' : undefined}
+          ${this.categories.length === 0 ? '<span>You dont have any categories yet</span>' : undefined}
         </ul>
 
         <button @click="${this.handleadd}">+Add</button>
