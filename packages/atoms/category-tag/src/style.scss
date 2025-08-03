@@ -1,4 +1,53 @@
 :host {
-  color: var(--pap-color-text);
-  background-color: var(--pap-color-background);
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span.tag {
+    background-color: var(--background);
+    color: var(--color);
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+}
+
+:host([variant="negative"]) {
+  div {
+    border-bottom: 2px solid red;
+  }
+}
+
+:host([color="gray"]) {
+  --background: rgb(188, 188, 188);
+  --color: black;
+}
+:host([color="red"]) {
+  --background: red;
+  --color: black;
+}
+:host([color="yellow"]) {
+  --background: yellow;
+  --color: black;
+}
+:host([color="blue"]) {
+  --background: cornflowerblue;
+  --color: black;
+}
+:host([color="green"]) {
+  --background: limegreen;
+  --color: black;
+}
+:host([color="orange"]) {
+  --background: salmon;
+  --color: black;
+}
+:host([color="purple"]) {
+  --background: purple;
+  --color: white;
+}
+:host([color="pink"]) {
+  --background: pink;
+  --color: black;
 }

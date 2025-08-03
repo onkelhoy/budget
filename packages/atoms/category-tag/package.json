@@ -39,12 +39,11 @@
     "url": "https://github.com/onkelhoy/budget.git"
   },
   "dependencies": {
-    "@papit/core": "^*",
+    "@papit/core": "^0.0.2",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@papit/translator": "^*",
-    "@papit/codeblock": "^*",
     "@types/node": "^22.10.2",
     "esbuild": "^0.17.18",
     "sass": "^1.70.0",

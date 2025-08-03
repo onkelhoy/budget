@@ -1,1 +1,1 @@
-export type ClickEvent = { timestamp: number };
+export type Color = "red"|"yellow"|"blue"|"green"|"orange"|"gray"|"purple"|"pink";

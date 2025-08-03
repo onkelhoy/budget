@@ -1,5 +1,5 @@
 {
-  "name": "budget/root",
+  "name": "@budget/root",
   "version": "0.0.0",
   "description": "my project",
   "private": true,
