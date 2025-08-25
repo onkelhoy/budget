@@ -39,16 +39,19 @@
     "url": "https://github.com/onkelhoy/budget.git"
   },
   "dependencies": {
+    "@budget/category-overview-item": "^0.0.1",
     "@budget/category-overview-list": "^0.0.1",
     "@budget/category-tag": "^0.0.1",
     "@budget/island": "^0.0.1",
     "@budget/template-base-layout": "^0.0.1",
     "@budget/utils-money": "^0.0.1",
-    "@papit/core": "^*",
-    "tslib": "^2.5.0"
+    "@papit/core": "0.1.0"
   },
   "devDependencies": {
-    "@papit/translator": "^*",
+    "@papit/card": "^0.0.1",
+    "@papit/codeblock": "0.0.2",
+    "@papit/translator": "^0.0.2",
+    "@papit/typography": "^0.0.3",
     "@playwright/test": "^1.45.3",
     "@types/node": "^22.10.2",
     "chokidar": "^3.6.0",

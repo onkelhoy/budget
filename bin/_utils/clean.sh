@@ -1,5 +1,7 @@
 #!/bin/bash
 
+find packages -type d -path "*/node_modules" -exec rm -rf {} +
+
 read -p "Delete builds?: [1/0] " builds
 if [[ "$builds" != "0" ]]; then
   find packages -type d -path "*/build" -exec rm -rf {} +

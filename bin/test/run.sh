@@ -96,19 +96,21 @@ echo "$LIST" | while IFS=' ' read -r name package version changed; do
   export NAME=$NAME
   echo "::group::$FULL_NAME"
 
-  if [[ $UPDATE_SNAPSHOT_EXISTS == "true" ]]; then 
-    # if no snapshots we make sure to create them 
-    if [[ -n "$UPDATE_SNAPSHOTS" || ! -d "tests/snapshots" ]]; then 
-      echo "- update snapshots"
-      npm run test:update-snapshots > /dev/null 2>&1
+  if [[ -n "$SKIP_SNAPSHOT" ]]; then 
+    if [[ $UPDATE_SNAPSHOT_EXISTS == "true" ]]; then 
+      # if no snapshots we make sure to create them 
+      if [[ -n "$UPDATE_SNAPSHOTS" || ! -d "tests/snapshots" ]]; then 
+        echo "- update snapshots"
+        npm run test:update-snapshots > /dev/null 2>&1
 
-    # Check if there are any matching files
-    elif find tests/ -type f -name "snapshot.test.ts" | grep -q '.'; then
-      echo "- pre-run snapshots"
-      npx playwright test -c tests/playwright.config.ts "tests/.*?/snapshot\.test\.ts" > /dev/null 2>&1
+      # Check if there are any matching files
+      elif find tests/ -type f -name "snapshot.test.ts"; then
+        echo "- pre-run snapshots"
+        npx playwright test -c tests/playwright.config.ts "tests/.*?/snapshot\.test\.ts" > /dev/null 2>&1
+      fi
+        
+      echo "- finished"
     fi
-      
-    echo "- finished"
   fi
 
   echo "- running test"
@@ -117,13 +119,13 @@ echo "$LIST" | while IFS=' ' read -r name package version changed; do
   # Capture the exit code to determine if the test passed
   test_exit_code=$?
   if [[ $test_exit_code -ne 0 ]]; then
-    touch "$ROOTDIR/.test-fail"
 
     # try rerun on failed tests to see if potential timing issue was the culprit (router had several such)
     npm test -- --last-failed
     rerun_exit_code=$?
 
     if [[ $rerun_exit_code -ne 0 && "$ALLOW_FAIL" == false ]]; then 
+      touch "$ROOTDIR/.test-fail"
       echo ""
       echo "- tests failed"
       echo "::endgroup::"
