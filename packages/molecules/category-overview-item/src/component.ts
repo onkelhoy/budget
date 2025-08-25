@@ -1,6 +1,6 @@
 // import statements 
 // system 
-import { CustomElement, debounce, html, property } from "@papit/core";
+import { bind, CustomElement, debounce, html, property } from "@papit/core";
 import "@papit/accordion";
 
 // utils 
@@ -16,36 +16,39 @@ import { Color } from "@budget/category-tag";
 export class CategoryOverviewItem extends CustomElement {
   static style = style;
 
+  @property({
+    rerender: true,
+    attribute: false,
+    type: Number,
+  })
   private balance = 0;
 
-  @property() name: string = "";
-  @property() color: Color = "gray";
-  @property({ type: Boolean }) open: boolean = false;
+  @property({ rerender: true }) name: string = "hej";
+  @property({ rerender: true }) color: Color = "gray";
+  @property({ type: Boolean, rerender: true }) open: boolean = false;
 
-  @property({ 
+  @property({
     type: Number,
+    rerender: true,
     after: function (this: CategoryOverviewItem) {
       this.calculateBalance();
     }
   }) budget: number = 0;
-  @property({ 
+  @property({
     type: Number,
+    rerender: true,
     after: function (this: CategoryOverviewItem) {
       this.calculateBalance();
     }
   }) spent: number = 0;
 
-  constructor() {
-    super();
-
-    this.calculateBalance = debounce(this.calculateBalance, 10);
-  }
-
-  private handleclick = () => {
+  @bind
+  private handleclick() {
     this.open = !this.open;
   }
 
-  private calculateBalance = () => {
+  @debounce(10)
+  private calculateBalance() {
     this.balance = this.budget - this.spent;
   }
 
@@ -54,10 +57,10 @@ export class CategoryOverviewItem extends CustomElement {
       <pap-accordion open="${this.open}">
         <budget-category-tag 
           slot="button"
-          name="${this.name}" 
-          value="${this.balance}"
+          name=${this.name}
+          value=${this.balance}
           color="${this.color}"
-          @click="${this.handleclick}"
+          @click=${this.handleclick}
         >
         </budget-category-tag>
         <span slot="icon"></span>

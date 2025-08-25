@@ -4,12 +4,13 @@ import { CustomElement, html, property, query } from "@papit/core";
 
 // local 
 import { style } from "./style";
+import { AddEvent } from "./types";
 
 export class AddCategoryDialog extends CustomElement {
   static style = style;
 
   // properties 
-  @property({ 
+  @property({
     type: Boolean,
     after: function (this: AddCategoryDialog, value: boolean) {
       if (!this.dialog) return;
@@ -21,15 +22,15 @@ export class AddCategoryDialog extends CustomElement {
 
   @query("dialog") dialog!: HTMLDialogElement;
 
-  private handlesubmit = (e:SubmitEvent) => {
+  private handlesubmit = (e: SubmitEvent) => {
     e.preventDefault();
     if (!e.currentTarget) return;
     const formelement = e.currentTarget as HTMLFormElement;
 
     const formdata = new FormData(formelement);
-    const name = formdata.get("name");
+    const name = formdata.get("name") as string;
 
-    this.dispatchEvent(new CustomEvent("submit", { detail: { name } }));
+    this.dispatchEvent(new CustomEvent<AddEvent>("submit", { detail: { name } }));
     formelement.reset();
   }
 

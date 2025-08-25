@@ -9,7 +9,7 @@ export class Island extends CustomElement {
   static style = style;
 
   // properties 
-  @property() name: string = "";
+  @property name: string = "";
 
   render() {
     return html`

@@ -45,7 +45,7 @@
     "url": "PLACEHOLDER_GITHUB_REPO.git"
   },
   "dependencies": {
-    "@papit/core": "0.1.0"
+    "@papit/core": "1.0.0"
   },
   "devDependencies": {
     "@papit/translator": "^*",

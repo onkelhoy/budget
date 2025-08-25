@@ -26,5 +26,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/**/*"
-  ]
+  ],
+  "dependencies": {
+    "@papit/theme-core": "^0.0.3"
+  }
 }

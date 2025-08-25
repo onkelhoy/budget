@@ -13,10 +13,11 @@ export class CategoryTag extends CustomElement {
   static style = style;
 
   // properties 
-  @property() color: Color = "gray";
-  @property() name: string = "category";
-  @property({ 
+  @property color: Color = "gray";
+  @property({ rerender: true }) name: string = "category";
+  @property({
     type: Number,
+    rerender: true,
     after: function (this: CategoryTag, value: number) {
       if (value >= 0) 
       {
@@ -30,8 +31,9 @@ export class CategoryTag extends CustomElement {
   }) value: number = 0;
 
   render() {
+    console.log('RERENDER?', this)
     return html`
-      <span class="tag">${this.name}</span>
+      <span class="tag">${this.name ?? "category"}</span>
       <div>
         <span>${this.value >= 0 ? "+" : "-"}</span>
         <span>${toMoney(Math.abs(this.value))}</span>

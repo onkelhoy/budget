@@ -18,7 +18,7 @@ export class CategoryOverviewList extends CustomElement {
   static style = style;
 
   @query("budget-add-category-dialog") dialog!: AddCategoryDialog;
-  @property({ type: Array, attribute: false }) categories: Category[] = [];
+  @property({ type: Array, attribute: false, rerender: true }) categories: Category[] = [];
 
   private handleadd = () => {
     if (!this.dialog) return;
@@ -46,7 +46,7 @@ export class CategoryOverviewList extends CustomElement {
             </li>
           `)}
 
-          ${this.categories.length === 0 ? '<span>You dont have any categories yet</span>' : undefined}
+          ${this.categories.length === 0 && html`<span>You dont have any categories yet</span>`}
         </ul>
 
         <button @click="${this.handleadd}">+Add</button>
