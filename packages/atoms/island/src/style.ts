@@ -1,1 +1,1 @@
-export const style = `:host{background-color:#fff;padding:1rem;border-radius:.5rem;display:block}:host h2{margin:0}:host div{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}`;
+export const style = `:host{background-color:var(--pap-foreground);color:var(--pap-text);padding:1rem;border-radius:.5rem;display:block}:host h2{margin:0}:host div{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}`;

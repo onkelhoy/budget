@@ -1,15 +1,30 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-rows: 1fr 5rem;
+  height: 100vh;
 
-  div {
-    background-color: white;
-    padding: 0.5rem 1rem;
-    margin-top: auto;
+  main {
+    overflow-y: auto;
+    padding-block: var(--unit-6, 1.5rem);
+
+    pap-container {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--unit-3, 0.75rem);
+    }
+  }
+
+  footer {
+    width: 100%;
+    background-color: var(--pap-foreground);
+    border-top: 1px var(--pap-border) solid;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+    pap-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }

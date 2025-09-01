@@ -2,6 +2,9 @@
 // system 
 import { CustomElement, html, property, query } from "@papit/core";
 
+// atoms
+import { AddEvent } from "@budget/add-category-dialog";
+
 // organisms 
 import { CategoryOverviewList, Category } from "@budget/category-overview-list";
 import "@budget/category-overview-list";
@@ -33,12 +36,13 @@ export class PageHome extends CustomElement {
   }) categoryElement!: CategoryOverviewList;
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.date = new Date();
     const currentYear = this.date.getFullYear();
     const currentMonth = this.date.getMonth();
 
     this.monthData = JSON.parse(
-      window.localStorage.getItem(`data-${currentMonth}-${currentYear}`) 
+      window.localStorage.getItem(`data-${currentMonth}-${currentYear}`)
       ?? JSON.stringify(MonthData),
     ) as MonthData;
 
@@ -69,7 +73,7 @@ export class PageHome extends CustomElement {
     }
   }
 
-  private handleSelect = (e:Event) => {
+  private handleSelect = (e: Event) => {
     if (!(e.currentTarget instanceof TemplateBaseLayout)) return;
 
     this.date.setMonth(e.currentTarget.selectedMonth);
@@ -78,26 +82,30 @@ export class PageHome extends CustomElement {
   private handleadd = () => {
     console.log('add payment or income!')
   }
-  private handleaddcategory = (e:CustomEvent) => {
-    const name = e.detail.name;
-    const category:Category = {
+  private handleaddcategory = (e: CustomEvent<AddEvent>) => {
+    const name = e.detail.name ?? "missing-name";
+    const budget = e.detail.budget ?? 0;
+    const color = e.detail.color ?? "gray";
+
+    const category: Category = {
       id: String(this.categoryData.length),
       name,
-      budget: 0,
+      budget,
+      color,
       spent: 0,
-      color: "gray",
     }
     this.categoryData.push({
       id: category.id,
       name,
-      budget: 0,
-      color: "gray", 
+      budget,
+      color,
       created: new Date().toISOString()
     });
     this.categoryOverview.push(category);
     this.monthData.categories[category.id] = { spent: category.spent, history: [] };
 
-    if (this.categoryElement) {
+    if (this.categoryElement)
+    {
       this.categoryElement.categories = this.categoryOverview;
       this.categoryElement.requestUpdate();
     }

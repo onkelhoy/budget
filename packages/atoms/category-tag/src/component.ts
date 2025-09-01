@@ -31,7 +31,6 @@ export class CategoryTag extends CustomElement {
   }) value: number = 0;
 
   render() {
-    console.log('RERENDER?', this)
     return html`
       <span class="tag">${this.name ?? "category"}</span>
       <div>

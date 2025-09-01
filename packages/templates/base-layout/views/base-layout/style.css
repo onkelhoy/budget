@@ -5,9 +5,3 @@ body {
   flex-direction: column;
   gap: var(--unit-4, 16px);
 }
-
-pap-card,
-pap-codeblock {
-  display: block;
-  height: 30rem;
-}

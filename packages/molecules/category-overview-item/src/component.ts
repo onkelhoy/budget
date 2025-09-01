@@ -8,10 +8,10 @@ import { toMoney } from "@budget/utils-money";
 
 // atoms
 import "@budget/category-tag"
+import { Color } from "@budget/category-tag"
 
 // local 
 import { style } from "./style";
-import { Color } from "@budget/category-tag";
 
 export class CategoryOverviewItem extends CustomElement {
   static style = style;

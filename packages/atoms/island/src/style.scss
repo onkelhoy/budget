@@ -1,5 +1,7 @@
 :host {
-  background-color: white;
+  background-color: var(--pap-foreground);
+  color: var(--pap-text);
+
   padding: 1rem;
   border-radius: 0.5rem;
   display: block;

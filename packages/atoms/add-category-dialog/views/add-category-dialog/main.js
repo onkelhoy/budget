@@ -17,4 +17,6 @@ window.onload = () => {
   button.addEventListener("click", () => {
     target.open = true;
   });
+
+  target.addEventListener("submit", console.log)
 }

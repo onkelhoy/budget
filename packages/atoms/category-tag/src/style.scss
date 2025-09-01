@@ -23,30 +23,37 @@
   --background: rgb(188, 188, 188);
   --color: black;
 }
+
 :host([color="red"]) {
   --background: red;
   --color: black;
 }
+
 :host([color="yellow"]) {
   --background: yellow;
   --color: black;
 }
+
 :host([color="blue"]) {
   --background: cornflowerblue;
   --color: black;
 }
+
 :host([color="green"]) {
   --background: limegreen;
   --color: black;
 }
+
 :host([color="orange"]) {
   --background: salmon;
   --color: black;
 }
+
 :host([color="purple"]) {
   --background: purple;
   --color: white;
 }
+
 :host([color="pink"]) {
   --background: pink;
   --color: black;

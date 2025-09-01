@@ -1,28 +1,43 @@
 :host {
+  color: var(--pap-text);
+
   dialog {
-    min-width: 80vw;
+    width: 80%;
+    max-width: 500px;
 
     form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      
-      div {
-        display: flex;
-        gap: 0.1rem;
-        flex-direction: column;
 
-        label {
-          display: block;
-        }
+      input[type=radio] {
+        width: 1.2rem;
+        height: 1.2rem;
       }
-  
-      div + div {
-        flex-direction: row;
+
+      div.flex {
+        display: flex;
         gap: 1rem;
-  
-        button {
-          flex: 1;
+
+        &.radio {
+          justify-content: space-between;
+        }
+
+        &.mt {
+          margin-top: 1rem;
+        }
+
+        &.field {
+          gap: 0.1rem;
+          flex-direction: column;
+
+          label {
+            display: block;
+          }
+
+          button {
+            flex: 1;
+          }
         }
       }
     }

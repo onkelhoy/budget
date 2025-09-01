@@ -4,7 +4,7 @@ import { CustomElement, html, property, query } from "@papit/core";
 
 // atoms 
 import "@budget/add-category-dialog";
-import { AddCategoryDialog } from "@budget/add-category-dialog";
+import { AddCategoryDialog, AddEvent } from "@budget/add-category-dialog";
 import "@budget/island";
 
 // molecules 
@@ -24,9 +24,9 @@ export class CategoryOverviewList extends CustomElement {
     if (!this.dialog) return;
     this.dialog.open = true;
   }
-  private handlesubmit = (e: CustomEvent) => {
-    const name = e.detail.name;
-    this.dispatchEvent(new CustomEvent("add", { detail: { name } }));
+  private handlesubmit = (e: CustomEvent<AddEvent>) => {
+    console.log(e);
+    this.dispatchEvent(new CustomEvent<AddEvent>("add", { detail: e.detail }));
   }
 
   render() {
